@@ -7,6 +7,7 @@ import { wp, hp } from "../../helpers/common";
 import { debounce } from 'lodash';
 import Categories from '../../components/categories';
 import { apiCall } from '../../api';
+import PlaceGrid from '../../components/placeGrid';
 
 
 
@@ -28,15 +29,16 @@ const HomeScreen = () => {
         let res = await apiCall(params)
 
         // console.log('got result', res)
-        // console.log(res.data[0])
+        console.log(res.data[0])
 
-        if (res.success) {
-            if (append)
-                setPlaces([...places, ...res.data])
-            else
-                setPlaces([...res.data])
-        }
-        console.log("places" ,places[0])
+        // if (res.success) {
+        //     if (append)
+        //         setPlaces([...places, ...res.data])
+        //     else
+        //         setPlaces([...res.data])
+        // }
+        setPlaces([...res.data])
+        console.log("places", places[0])
     }
 
     const handleChangeCategory = (cat) => {
@@ -123,14 +125,15 @@ const HomeScreen = () => {
                     <Categories activeCategory={activeCategory} handleChangeCategory={handleChangeCategory} />
                 </View>
 
-                  {/* images masonary grid */}
-                  <View>
+                <View>
                     {
-                        images.length > 0 && <ImageGrid images={images} />
+                        places.length > 0 && <PlaceGrid places={places} />
                     }
                 </View>
 
+
             </ScrollView>
+
         </View>
     )
 }
