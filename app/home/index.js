@@ -1,11 +1,12 @@
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Feather, FontAwesome6, Ionicons } from '@expo/vector-icons';
 import { theme } from '../../constants/theme';
 import { wp, hp } from "../../helpers/common";
 import { debounce } from 'lodash';
 import Categories from '../../components/categories';
+import { apiCall } from '../../api';
 
 
 
@@ -17,6 +18,26 @@ const HomeScreen = () => {
     const searchInputRef = useRef(null);
     const [activeCategory, setActiveCategory] = useState(null);
     const [places, setPlaces] = useState([])
+
+    useEffect(() => {
+        fetchPlaces()
+    }, []);
+
+    const fetchPlaces = async (params, append = false) => {
+        // console.log(params)
+        let res = await apiCall(params)
+
+        // console.log('got result', res)
+        // console.log(res.data[0])
+
+        if (res.success) {
+            if (append)
+                setPlaces([...places, ...res.data])
+            else
+                setPlaces([...res.data])
+        }
+        console.log("places" ,places[0])
+    }
 
     const handleChangeCategory = (cat) => {
         setActiveCategory(cat);
@@ -100,6 +121,13 @@ const HomeScreen = () => {
                 {/* Categories */}
                 <View style={styles.categories}>
                     <Categories activeCategory={activeCategory} handleChangeCategory={handleChangeCategory} />
+                </View>
+
+                  {/* images masonary grid */}
+                  <View>
+                    {
+                        images.length > 0 && <ImageGrid images={images} />
+                    }
                 </View>
 
             </ScrollView>
