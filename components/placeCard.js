@@ -4,6 +4,7 @@ import { Image } from 'expo-image';
 import { getImageSize, wp, hp } from '../helpers/common';
 import { theme } from "../constants/theme"
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 
 
 const PlaceCard = ({ item, index, columns }) => {
@@ -17,6 +18,7 @@ const PlaceCard = ({ item, index, columns }) => {
     //     return { height: getImageSize(height, width) }
     // }
     // console.log(item?.webformatURL)
+    const router = useRouter()
 
     let isNotFound = item?.photoUrl === "No image found";
     console.log(isNotFound)
@@ -28,7 +30,7 @@ const PlaceCard = ({ item, index, columns }) => {
     // let check = "https://pixabay.com/get/gbaa03eb37e1b28d6ac2e72ce7875a91d03d0ad5760e60ba4f9db4d57ef033c9619763961ab3acb65365b7aafced592193ba90f330a5a8df7f24780f0ae0f2735_640.jpg"
     return (
         <TouchableOpacity
-            onPress={() => navigation.navigate('Destination', { ...item })}
+            onPress={() => { router.push({ pathname: '/destination', params: item}) }}
             style={[styles.card, { width: wp(44), height: wp(65) }]}
         >
             <Image
