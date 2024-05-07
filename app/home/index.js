@@ -5,6 +5,7 @@ import { Feather, FontAwesome6, Ionicons } from '@expo/vector-icons';
 import { theme } from '../../constants/theme';
 import { wp, hp } from "../../helpers/common";
 import { debounce } from 'lodash';
+import Categories from '../../components/categories';
 
 
 
@@ -16,6 +17,10 @@ const HomeScreen = () => {
     const searchInputRef = useRef(null);
     const [activeCategory, setActiveCategory] = useState(null);
     const [places, setPlaces] = useState([])
+
+    const handleChangeCategory = (cat) => {
+        setActiveCategory(cat);
+    }
 
     const handleSearch = (text) => {
         // console.log('searching for: ', text);
@@ -90,8 +95,13 @@ const HomeScreen = () => {
                             </Pressable>
                         )
                     }
-
                 </View>
+
+                {/* Categories */}
+                <View style={styles.categories}>
+                    <Categories activeCategory={activeCategory} handleChangeCategory={handleChangeCategory} />
+                </View>
+
             </ScrollView>
         </View>
     )
